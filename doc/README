@@ -1,0 +1,174 @@
+AutoComplete
+
+
+The important directories are:
+
+
+    front/      This contains the front-end application
+
+    modules/    Contains a few modules used in the Node
+                app
+
+    words/      Contains the text file (words.txt) that
+                stores the list of valid words.
+
+    server.js   The Node application/entry point.
+
+
+Install
+
+The package.json file defines all of the required Node
+modules, a simple 'npm install' is sufficient.
+
+
+Running the server and the config.js module
+
+The modules/config.js script defines a few configuration
+values that can be changed to suit - by default, the
+server listens on port 3000, you can change this in the
+config.js module.
+
+You can also specify the maximum length of a word (default
+is 20) and the path to the file containing the word list.
+
+Edit config.js as required then run:
+
+    npm start
+
+Or
+
+    node server.js
+
+And the server will load the words, sort and store them
+before listening for requests (the load/sort time is
+microseconds).
+
+
+Running the front-end.
+
+The front-end is simple enough - there's an index.html, just
+open that in your browser. I've utiised the cors module in
+Node to prevent CORS errors you often get working cross-
+domain just to avoid any possible issues if you're running
+the server locally.
+
+There isn't much else in the front/ directory. There are some
+scss/css files and there's also a JavaScript module:
+
+    front/app/search-api.js
+
+This defines the host (localhost by default) and port
+(3000 by default) the client should connect to. Naturally,
+the port should mirror the value set in the servers
+config module (modules/config.js).
+
+Nothing else is required with the front-end, just open the
+index.html in yor brower and it will connect to the back-end.
+
+
+A NOTE - turns out you can not format individual characters
+in a text input...you learn something new every day, eh?
+
+So what you need to do is create a div element with the
+contenteditable attribute set, you can then style parts of
+the text by spanning a class across them.
+
+This means I had to implement basic textbox behaviour (have
+to programmatically position the cursor, manage arrow keys,
+backspaces, etc). The only reasonable alternative was would be
+to omit the graying-out suggested portion of the text which I
+did not want to do.
+
+It works really well, you can use left and right arrow keys to
+navigate the text input and delete specific characters, what
+you can't do is highlight and edit/delete a range or multiple
+chars as a time, you cannot select part of the text, nor can
+you scroll past the end of "locked" or black chars into the
+"suggested" or grayed out chars - the requested auto-complete
+on tab feature is also fully-functional.
+
+
+Speed
+
+I decided the best approach was to optimise the data on the
+server side to speed up the lookup process. The spec does
+state that a single AJAX call must be made for every input
+character so storing all of the data on the client side
+wasn't an option.
+
+To speed up the search process the server will load and
+store the words in a logical, internal structure that helps
+facilitate the search process.
+
+First, words of equal length are stored in a single array,
+so all 20-letter words in one array, all 19-letter words
+in another array and so on. Words over the maximum length
+(20 chars by default) are discarded. I did consider
+truncating them but realised the truncated verbiage would
+no longer be an actual word and realised I was being
+stupid.
+
+I've also chosen to discard and possible words that don't
+begin with a letter or number. I looked over that file and
+there are some highly dubious, alleged words in there. Did
+you kow that zZt is a word? Please! Despite my incredulity
+the word zZt will return in a query since it has an
+alpha-numeric initial. Any word that is found to being with
+a non alpha-numeric character is discarded
+
+
+Sorting the arrays alphabetically
+
+Each of these arrays is then sorted further into arrays
+that are indexed alphabetically. So array[20][0] stores
+20 letter words beginning with a, array[20][1] stores
+20-letter words beginning with b, array[15][8] would
+store 15-letter words that begin with i and so on.
+
+This really speeds up the process and response time. I did
+initially try just storing the words in a single array and
+also tried to build some clever tree-like structures but in
+the end the added complexity came at a cost. They were still
+pretty fast and highly responsive, but in the end simplicity
+trumped complexity in terms of performance.
+
+
+Some points:
+
+By default the maximum word length is set to 20, you can
+change this in the modules/config.js file. If you look in
+the modules/loadwords.js file you'll see the following
+option:
+
+    const ENABL_CONSOLE = false;
+
+Set this to true then view the console when the server
+runs - it will tell you how many words in total were 
+loaded, how many were stored and how many were discraded.
+
+
+All words returned are being converted to lowercase, this
+is mainly because most of the words in the file are not
+capitalised and it over-complicated things - I can workaround
+this if you need me to, I'd have toI would need to spend some
+time implementing the shift ky and its function. Shift won't
+work, the only keys you can use on the text input are
+alpha-numeric, tab key, left and right arrow keys and some
+punctuation, hyphens, etc.
+
+
+I added a couple of simple, clickable buttons just to add
+some noise to the front-end design, which is responsive but
+fairly minimalistic - I didn't want to overcrowd the page
+and tried to keep it as simple as the reference you gave.
+I'm happy to add or change what you need here, no problem.
+
+I've tested it extensively and matches the spec to my
+understanding, if there's anything I've overlooked or gotten
+wrong don't hesitate to let me know and I'll get it sorted
+for you.
+
+
+Cheers,
+Michael.
+

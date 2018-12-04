@@ -1,0 +1,93 @@
+/**********************************************************
+ * front/scss/search.scss
+ */
+
+
+$input-top: 60%;
+
+$search-index: 20;
+$input-index: 21;
+
+
+#search-container {
+    @extend %inner-ext;
+
+    z-index: $search_index;
+
+    width: 100%; height: 40%;
+
+    box-sizing: border-box;
+
+    background: #FAFAFA;
+}
+
+#search {
+    @extend %inner-ext;
+
+    z-index: $input-index;
+
+    margin: 5vh 5% 5% 5%;
+    width: 90%; height: 6.5vh;
+
+    line-height: 5.5vh;
+
+    font-family: Mukta, sans-serif;
+    font-size: 5.5vh;
+
+    padding: 0px 2px;
+    text-decoration: none;
+
+    color: #000;
+    background: #FFF;
+
+    border-radius: 4px;
+    border: 3px solid #1E90FF;
+}
+
+
+.search-el {
+    cursor: pointer;
+    position: relative;
+
+    width: 90%; height: 5vh;
+    background: #1E90FF;
+
+    margin: 12px 5%;
+
+    text-align: center;
+    line-height: 5vh;
+
+    font-family: Mukta, sans-serif;
+
+    color: #FFF;
+
+    box-sizing: border-box;
+    border-radius: 4px;
+
+    box-shadow: 1px 1px 1px #000;
+
+    font-size: 3.5vh;
+    font-weight: bold;
+
+    opacity: 0.75;
+}
+
+.search-el:hover { opacity: 0.99; }
+
+#search-clear {
+    float: left;
+}
+
+#search-lock {
+    float: right;
+}
+
+
+.unlocked {
+    position: relative;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    color: #AAA;
+}
+

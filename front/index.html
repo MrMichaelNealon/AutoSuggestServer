@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <link href="https://fonts.googleapis.com/css?family=Lora|Mukta" rel="stylesheet"> 
+        <link rel="stylesheet" type="text/css" href="./css/main.css" />
+        
+        <title>
+            AutoComplete
+        </title>
+
+        <script src="./app/search-api.js"></script>
+    </head>
+    
+    <body>
+
+        <div id="outer">
+            <div id="inner">
+
+                <div id="header">
+                    <div id="header-title">
+                        AutoComplete
+                    </div>
+                    <div id="header-subtitle">
+                        An auto-complete example written in vanilla JS
+                    </div>
+                </div>
+
+                <div id="search-container">
+                    <div contenteditable type="text" id="search">
+                        <p></p>
+                    </div>
+
+                    <div id="search-clear" class="search-el">Clear</div>
+                    <div id="search-lock" class="search-el">Lock</div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            init();
+        </script>
+
+    </body>
+</html>
+
